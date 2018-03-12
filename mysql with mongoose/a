@@ -1,0 +1,156 @@
+shared this JavaScript/JSON snippet: index.js
+const express=require("express");
+const bodyParser=require("body-parser")
+const mysql=require("mysql");
+const {con}=require('./db');
+​
+
+Bhavna Patil [11:56 AM]
+shared this JavaScript/JSON snippet: db.js
+​
+const mysql=require("mysql");
+​
+var con=mysql.createConnection({
+  host:"localhost",
+  user:"root",
+  password:"",
+  database:"final12"
+})
+con.connect((err)=> {
+  if (err) {
+    console.log("Error", err);
+  }
+  //
+  // con.query("create database final12",(err,res)=>{
+  //   if(res){
+  //     console.log('Connection Success')
+  //   }
+  // });
+  // con.query(
+  //   "create table dept (did Integer primary key auto_increment,dname varchar(20))",
+  //   (err, result) => {
+  //     if (err) {
+  //       console.log("Error", err);
+  //     }
+  //     if (result) {
+  //       console.log("Table Created");
+  //
+  //     }
+  //});
+  // con.query(
+  //   "create table emp (eid integer primary key auto_increment,ename varchar(50),age integer,deptid integer,foreign key (deptid) references dept (did) )",
+  //   (err, result) => {
+  //     if (err) {
+  //       console.log("Error", err);
+  //     }
+  //     if (result) {
+  //       console.log("Table Created");
+  //
+  //     }
+  //   });
+});
+module.exports={con};
+
+
+
+const express=require("express");
+const bodyParser=require("body-parser")
+const mysql=require("mysql");
+const {con}=require('./db');
+
+const app=express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.get("/",(req,res)=>{
+    res.send("Hello");
+})
+app.post("/dept",(req,res)=>{
+    con.query("insert into dept (dname) values('"+req.body.dname+"')",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log("1 Row Inserted");
+        }
+    });
+})
+app.get("/dept",(req,res)=>{
+    con.query("select * from dept where flag=1",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log(result);
+        }
+    });
+})
+app.get("/emp",(req,res)=>{
+    con.query("select * from emp where flag=1",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log(result);
+        }
+    });
+})
+app.post("/emp",(req,res)=>{
+    con.query("insert into emp (ename,age,deptid) values('"+req.body.ename+"',"+req.body.age+","+req.body.deptid+")",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log("1 Row Inserted");
+        }
+    });
+})
+app.put("/emp",(req,res)=>{
+    con.query("update emp  set ename='"+req.body.ename+"',age="+req.body.age+",deptid="+req.body.deptid+" where eid="+req.body.id+"",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log("1 Row Updated");
+        }
+    });
+})
+app.delete("/emp",(req,res)=>{
+    con.query("update emp set flag=false where eid="+req.body.id+"",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log("1 Row Deleted");
+        }
+    });
+})
+app.get("/empg",(req,res)=>{
+    con.query("select d.dname,e.ename from emp e,dept d where e.deptid=d.did",(err,result)=>
+    {
+        if(err)
+        {
+            console.log("Error",err);
+        }
+        else {
+            console.log(result);
+        }
+    });
+})
+
+
+
+​
+​

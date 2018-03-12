@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <form action="/add" method="post">
+        <div class="form-group">
+            <h1>Registration Form</h1>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" class="form-control" id="age" placeholder="Enter age" name="age">
+        </div>
+        <div class="form-group">
+            <label for="mobile">Mobile:</label>
+            <input type="text" class="form-control" id="mobile" placeholder="Enter mobile number" name="mobile">
+        </div>
+        <div class="form-group">
+            <label for="username">Email:</label>
+            <input type="email" class="form-control" id="username" placeholder="Enter email" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+        for Login<a href="/login"> click here</a>
+    </form>
+</div>
+
+</body>
+</html>

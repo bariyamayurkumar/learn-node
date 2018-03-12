@@ -1,0 +1,197 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <form (ngSubmit) = "onSubmit()" #f="ngForm">
+        <div id="user-data">
+          <div class="form-group">
+            <label >First Name</label>
+            <input type="text"
+                   id="fname"
+                   class="form-control"
+                   [(ngModel)] = "fname"
+                   name="fname"
+                   #fnameV = "ngModel"
+                   required>
+            <span *ngIf="!fnameV.valid && fnameV.touched">Please Enter First Name</span>
+          </div>
+          <div class="form-group">
+            <label >Last Name</label>
+            <input type="text"
+                   id="lname"
+                   class="form-control"
+                   [(ngModel)] = "lname"
+                   name="lname"
+                   #lnameV = "ngModel"
+                   required>
+            <span *ngIf="!lnameV.valid && lnameV.touched">Please Enter Last Name</span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email"
+                   id="email"
+                   class="form-control"
+                   [(ngModel)] = "email"
+                   name="email"
+                   email
+                   required
+                   #emailV = "ngModel"
+                   [disabled]="editMode">
+            <span class="valid-form" *ngIf="!emailV.valid && emailV.touched">Email is Invalid </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label >Password</label>
+          <input type="password"
+                 id="password"
+                 class="form-control"
+                 [(ngModel)] = "password"
+                 name="password"
+                 #pass = "ngModel"
+                 required>
+          <span *ngIf="!pass.valid && pass.touched">Please Enter password</span>
+        </div>
+        <div class="form-group">
+          <label >State</label>
+          <select class="form-control" name="state" id="state" [(ngModel)] ="state">
+            <option value="gujarat">
+              Gujarat
+            </option>
+            <option value="maharashtra">
+              Maharashtra
+            </option>
+            <option value="up" >U.P.</option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="f.value.state === 'gujarat'">
+          <label >City</label>
+          <select class="form-control" name="city" id="city" [(ngModel)] = "city">
+            <option value="Surat" >
+              Surat
+            </option>
+            <option value="Bharuch">
+              Bharuch
+            </option>
+            <option value="Vapi">
+              Vapi
+            </option>
+            <option value="Ankhleshwar">
+              Ankhleshwar
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="f.value.state === 'maharashtra'">
+          <label >City</label>
+          <select class="form-control" name="city" id="city2" [(ngModel)] = "city">
+            <option value="Mumbai" >
+              Mumbai
+            </option>
+            <option value="Pune">
+              Pune
+            </option>
+            <option value="Bhushaval">
+              Bhushaval
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="f.value.state === 'up'">
+          <label >City</label>
+          <select class="form-control" name="city" id="city3" [(ngModel)] = "city">
+            <option value="Kanpur" >
+              Kanpur
+            </option>
+            <option value="Jaunpur">
+              Jaunpur
+            </option>
+            <option value="Agra">
+              Agra
+            </option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="!editMode">
+         <button class="btn btn-success" type="submit" [disabled]="!f.valid">Submit</button>
+        </div>
+        <div class="form-group" *ngIf="editMode">
+          <button class="btn btn-primary" type="button" [disabled]="!f.valid" (click)="updateData()">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <hr>
+
+</div>
+
+
+<div class="container">
+<div class="row">
+    <input class="form-control" type="text" placeholder="Search" name="search" [(ngModel)]="filter" style="width: 100px; margin: 10px">
+</div>
+  <table class="table table-bordered">
+    <thead>
+    <tr >
+      <th (click)="sort('fname')">
+        first Name
+        <span class="glyphicon sort-icon" *ngIf="key =='fname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
+      <th (click)="sort('lname')">
+        Last Name
+        <span class="glyphicon sort-icon" *ngIf="key =='lname'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
+      <th (click)="sort('email')">
+        Email
+        <span class="glyphicon sort-icon" *ngIf="key =='email'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
+      <th (click)="sort('state')">
+        State
+        <span class="glyphicon sort-icon" *ngIf="key =='state'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
+      <th (click)="sort('city')">
+        City
+        <span class="glyphicon sort-icon" *ngIf="key =='city'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
+      <th>
+        Delete
+      </th>
+      <th>
+        Update
+
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let d of data | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: p }; let i=index;">
+      <td>
+        {{d.fname}}
+      </td>
+      <td>
+        {{d.lname}}
+      </td>
+      <td>
+        {{d.email}}
+      </td>
+      <td>
+        {{d.state}}
+      </td>
+      <td>
+        {{d.city}}
+      </td>
+      <td>
+        <a class="btn btn-danger" (click)="onDelete(d._id)" >Delete</a>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="onEdit(d._id)" >Update</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
